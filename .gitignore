@@ -1,2 +1,4 @@
 /TrainSet/
 .idea/
+__pycache__/
+/augmented/
