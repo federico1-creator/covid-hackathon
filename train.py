@@ -4,14 +4,18 @@ import torchvision
 from torchsummary import summary
 from torchvision.models.resnet import model_urls
 
-
+torch.manual_seed(42)
 # load the data
+dataset= ''
+#train, evaluation= torch.utils.data.random_split(dataset, [1000, 103])
+loader= ''
 
 # load the model
 #model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', pretrained=True)
 #model_urls['resnet34'] = model_urls['resnet34'].replace('https://', 'http://')
-model= torchvision.models.resnet34(pretrained=True)
+model= torchvision.models.resnet34(pretrained=False)
 num= model.fc.in_features
+model.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
 model.fc= torch.nn.Linear(512, 2)
 
 summary(model, (3,224,224))
@@ -48,11 +52,11 @@ torch.save(model.state_dict(), model_path)
 
 # model load
 model.load_state_dict(torch.load(model_path))
-model.eval()
 
 correct = 0
 total = 0
 with torch.no_grad():
+    model.eval()
     for data in testloader:
         images, labels = data
 
