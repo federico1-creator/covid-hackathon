@@ -6,6 +6,8 @@ con analisi dell'accuracy
 
 [Allenamento Resnet34](https://github.com/federico1-creator/covid-hackathon/blob/master/2%C2%B0_attempt.py)
 
-[creazione dataset in pytorch](https://github.com/federico1-creator/covid-hackathon/blob/master/dataset.py)
+[Prime analisi di pre-processing](https://github.com/federico1-creator/covid-hackathon/blob/master/pre-processing.ipynb)
 
-[codice di allenamento](https://github.com/federico1-creator/covid-hackathon/blob/master/train.py)
+[Creazione dataset in pytorch](https://github.com/federico1-creator/covid-hackathon/blob/master/dataset.py)
+
+[Codice di allenamento](https://github.com/federico1-creator/covid-hackathon/blob/master/train.py)
