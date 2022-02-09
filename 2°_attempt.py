@@ -15,6 +15,7 @@ from torch.utils.data import Dataset, DataLoader
 import torch
 import torchvision
 import pandas as pd
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 torch.manual_seed(42)
 data_path= r'TrainSet/trainClinData.xls'
@@ -23,8 +24,9 @@ print('Start with the processing of the data')
 # TODO: we have to add the normalization and augmentation part
 
 transf_loader= transforms.Compose([
-    transforms.Resize([1000, 1000]),
-    transforms.ToTensor()
+    transforms.Resize([224, 224]),
+    transforms.ToTensor(),
+    #transforms.Normalize([0.5], [0.5])
 ])
 
 class custom_dataset(Dataset):
@@ -89,7 +91,7 @@ loss = torch.nn.CrossEntropyLoss() # weight=torch.tensor([1, 1])    for unbalanc
 optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
 print('Start the training ...')
-for epoch in range(2):
+for epoch in range(20):
     running_loss = 0.0
     for i, data in enumerate(train_loader, 0):
         inputs, labels = data #[inputs, labels]
@@ -108,7 +110,7 @@ for epoch in range(2):
             running_loss = 0.0
 print('Finished Training')
 
-model_path = 'saved_models/model_pretrain.pth'
+model_path = 'saved_models/model_pretrain_50.pth'
 torch.save(model.state_dict(), model_path)
 print('Saved the model')
 
@@ -117,15 +119,31 @@ print('Loaded the model')
 
 correct = 0
 total = 0
+lab= []
+pred= []
 with torch.no_grad():
     model.eval()
     for data in test_loader:
         images, labels = data
 
-        outputs = model(images)
-        _, predicted = torch.max(outputs.data, 1)
+        outputs = model(images) 
+        # FIXME: outputs: [[-3.1742], [-0.3042], [ 1.2059], [-2.6797], ...
+        #_, predicted = torch.max(outputs.data, 1)
+        predicted= torch.where(outputs > 0, 1, 0).squeeze()
+
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
+        lab.append(labels)
+        pred.append(predicted)
 
+# METRICS
 print('accuracy: %d' %(100 * correct // total) + '%')
 # 46% accuracy
+flat_lab = [item for sublist in lab for item in sublist]
+flat_pred = [item for sublist in pred for item in sublist]
+
+tn, fp, fn, tp = confusion_matrix(flat_lab, flat_pred).ravel()
+TPR= tp/(tp+fn)
+TNR= tn/(tn+fp)
+print(TPR, TNR)
+print('final result:', (TPR+TNR)/2)
