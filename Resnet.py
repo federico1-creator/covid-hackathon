@@ -56,8 +56,6 @@ class custom_dataset(Dataset):
             img_name= os.path.join(self.root_dir, change_path)
             label= data['label'][index]
 
-        #print(img_name)
-        # apply function for the pre-processing
         img= Image.open(img_name)
         # data augmentation
         img= self.transform(img).float()
@@ -72,10 +70,10 @@ train_loader= DataLoader(train, batch_size=32, shuffle=True, drop_last=True)
 test_loader= DataLoader(test, batch_size=32, shuffle=False)
 
 print('Load the model')
-model_urls['resnet34'] = model_urls['resnet34'].replace('https://', 'http://')
-model= torchvision.models.resnet34(pretrained=True)
+model_urls['resnet101'] = model_urls['resnet101'].replace('https://', 'http://')
+model= torchvision.models.resnet101(pretrained=True)
 model.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False) # 1 channel in input image
-num= model.fc.in_features
+num= model.fc.in_features #512
 model.fc= torch.nn.Linear(512, 1)
 
 #summary(model, (1,224,224))
@@ -86,20 +84,21 @@ if torch.cuda.is_available():
     print('GPU used')
 
 model.train()
-criterion= torch.nn.BCEWithLogitsLoss()
-loss = torch.nn.CrossEntropyLoss() # weight=torch.tensor([1, 1])    for unbalanced class
+criterion= torch.nn.BCEWithLogitsLoss() # da cambiare
+loss = torch.nn.CrossEntropyLoss() # weight=torch.tensor([1, 1])
 optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
 print('Start the training ...')
 for epoch in range(20):
     running_loss = 0.0
     for i, data in enumerate(train_loader, 0):
-        inputs, labels = data #[inputs, labels]
-        #inputs, labels = data[0].to(device), data[1].to(device) # per ogni step che carica dei dati, nella GPU
+        inputs, labels = data
+        #inputs, labels = data[0].to(device), data[1].to(device) # on GPU
         optimizer.zero_grad() # FIXME: posizione corretta?
         outputs = model(inputs)
-        labels= labels.reshape([32, 1]).float()
-        loss = criterion(outputs, labels) # FIXME: sigmoid in the output ???
+        # FIXME: sigmoid in the output ???
+        #labels= labels.reshape([32, 1]).float()
+        loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
 
@@ -129,12 +128,13 @@ with torch.no_grad():
         outputs = model(images) 
         # FIXME: outputs: [[-3.1742], [-0.3042], [ 1.2059], [-2.6797], ...
         #_, predicted = torch.max(outputs.data, 1)
-        predicted= torch.where(outputs > 0, 1, 0).squeeze()
+        predicted= 
 
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
         lab.append(labels)
         pred.append(predicted)
+
 
 # METRICS
 print('accuracy: %d' %(100 * correct // total) + '%')
