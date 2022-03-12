@@ -4,6 +4,8 @@
 The purpose of this work is to define an explainable way to define if a COVID patient health status is "MILD" or "SEVERE" using an algorithm which elaborates this dataset. 
 Each one of the following section explains one step of our classification pipeline.
 
+[Paper of our idea](https://github.com/federico1-creator/covid-hackathon/blob/master/Hackton_Covid.pdf)
+
 ## Materials:
 
 [Clinical data](https://github.com/federico1-creator/covid-hackathon/blob/master/1%C2%B0_attempt.ipynb)
