@@ -6,21 +6,22 @@ Each one of the following section explains one step of our classification pipeli
 
 [Paper of our idea](https://github.com/federico1-creator/covid-hackathon/blob/master/Hackton_Covid.pdf)
 
-## Materials:
+## Materials of classification and EX-AI:
 
 [Training and evaluation of our final model](https://github.com/federico1-creator/covid-hackathon/blob/master/dt_evaluation.ipynb)
 
 [Test of our final model](https://github.com/federico1-creator/covid-hackathon/blob/master/dt_result.ipynb)
 
 ---
+## Additional materials:
 
 Use of only [clinical data](https://github.com/federico1-creator/covid-hackathon/blob/master/1%C2%B0_attempt.ipynb)
 with accuracy analysis
 
-[Prime analisi di pre-processing](https://github.com/federico1-creator/covid-hackathon/blob/master/pre-processing.ipynb)
+[First part of pre-processing analysis](https://github.com/federico1-creator/covid-hackathon/blob/master/pre-processing.ipynb)
 
 [Dataset with pytorch](https://github.com/federico1-creator/covid-hackathon/blob/master/dataset.py)
 
 [Training Resnet34](https://github.com/federico1-creator/covid-hackathon/blob/master/2%C2%B0_attempt.py)
 
-[Codice di allenamento](https://github.com/federico1-creator/covid-hackathon/blob/master/train.py)
+[Training code](https://github.com/federico1-creator/covid-hackathon/blob/master/train.py)
