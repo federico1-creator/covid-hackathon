@@ -1,7 +1,7 @@
 # covid-hackathon
 ## Purposes of the project
 
-The purpose of this work is to define an explainable way to define if a COVID patient health status is "MILD" or "SEVERE" using an algorithm which elaborates this dataset. 
+The purpose of this work is to define an explainable way to define if a COVID patient health status is "MILD" or "SEVERE" using an algorithm which elaborates clinical data and x-rays. 
 Each one of the following section explains one step of our classification pipeline.
 
 [Paper of our idea](https://github.com/federico1-creator/covid-hackathon/blob/master/Hackton_Covid.pdf)
